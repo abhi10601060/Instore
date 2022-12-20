@@ -37,7 +37,7 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
 
         viewContentBtn.setOnClickListener(View.OnClickListener {
             val url = postEditText.text.toString().trim()
-            if (url.contains("https://www.instagram.com/")){
+            if (url.contains("https://www.instagram.com/p/")){
                 contentViewModel.getContent(url)
             }
         })
