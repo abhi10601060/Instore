@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.DownloadManager
 import android.content.Context
 import android.content.pm.PackageManager
-import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -12,7 +11,6 @@ import android.view.View
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.instore.R
 import com.example.instore.models.MainModel
@@ -76,14 +74,16 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
     }
 
     private fun handleDownload() {
-        contentViewModel.content.observe(viewLifecycleOwner , Observer {
-            when(it){
-                is Resource.Success<MainModel> -> {
-                    it.data?.graphql?.shortcode_media?.display_url?.let { it1 -> downloadPost(it1) }
-                }
-                else -> Toast.makeText(context, "Invalid Url ...", Toast.LENGTH_SHORT).show()
+        if (contentViewModel.content.value is Resource.Success<MainModel>){
+            (contentViewModel.content.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.display_url?.let {
+                downloadPost(
+                    it
+                )
             }
-        })
+        }
+        else{
+            Toast.makeText(context, "Invalid Url ....", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun downloadPost(url : String) {

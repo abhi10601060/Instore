@@ -38,9 +38,8 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         setupViewPagerWithTablayout()
+
         askPermission()
-
-
     }
 
     private fun setupViewPagerWithTablayout() {
