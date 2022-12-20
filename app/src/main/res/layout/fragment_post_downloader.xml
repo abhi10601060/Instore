@@ -6,10 +6,11 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="30dp"
-        android:id="@+id/edt_post"/>
+        android:id="@+id/edt_post"
+        android:lines="1"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -41,6 +42,12 @@
         android:id="@+id/img_post"/>
 
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:id="@+id/postProgressBar"/>
 
 
 
