@@ -1,7 +1,12 @@
 package com.example.instore.ui.activities
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.instore.R
@@ -33,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         setupViewPagerWithTablayout()
+        askPermission()
 
 
     }
@@ -60,5 +66,28 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    fun askPermission() {
+        if (ContextCompat.checkSelfPermission(this , Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE) , 100)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when(requestCode){
+
+            100 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this, "Permission granted...", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }

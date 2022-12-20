@@ -1,10 +1,18 @@
 package com.example.instore.ui.fragments
 
+import android.Manifest
+import android.app.DownloadManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.icu.util.Calendar
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.instore.R
 import com.example.instore.models.MainModel
@@ -16,6 +24,7 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
 
     lateinit var postEditText : EditText
     lateinit var viewContentBtn : Button
+    lateinit var downloadBtn : Button
     lateinit var postImage: ImageView
     lateinit var contentViewModel: ContentViewModel
     lateinit var postProgress: ProgressBar
@@ -32,6 +41,15 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
             val url = postEditText.text.toString().trim()
             if (url.contains("https://www.instagram.com/")){
                 contentViewModel.getContent(url)
+            }
+        })
+
+        downloadBtn.setOnClickListener(View.OnClickListener {
+            if (context?.let { it1 -> ContextCompat.checkSelfPermission(it1, Manifest.permission.WRITE_EXTERNAL_STORAGE) } != PackageManager.PERMISSION_GRANTED){
+                (activity as MainActivity).askPermission()
+            }
+            else{
+                handleDownload()
             }
         })
 
@@ -55,8 +73,31 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
                 }
             }
         })
+    }
 
+    private fun handleDownload() {
+        contentViewModel.content.observe(viewLifecycleOwner , Observer {
+            when(it){
+                is Resource.Success<MainModel> -> {
+                    it.data?.graphql?.shortcode_media?.display_url?.let { it1 -> downloadPost(it1) }
+                }
+                else -> Toast.makeText(context, "Invalid Url ...", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
 
+    private fun downloadPost(url : String) {
+        val request = DownloadManager.Request(Uri.parse(url))
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI and DownloadManager.Request.NETWORK_MOBILE)
+        request.setTitle("Downloading Post...")
+        request.setDescription("------")
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+        request.allowScanningByMediaScanner()
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,"/Instore/posts/" + java.util.Calendar.getInstance().timeInMillis.toString() + ".jpg")
+
+        val manager = (activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager)
+        manager.enqueue(request)
+        Toast.makeText(context, "Downloading started...", Toast.LENGTH_SHORT).show()
     }
 
     private fun initViews(view: View) {
@@ -64,5 +105,6 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
         viewContentBtn = view.findViewById(R.id.btn_View_Post)
         postImage =view.findViewById(R.id.img_post)
         postProgress = view.findViewById(R.id.postProgressBar)
+        downloadBtn = view.findViewById(R.id.btn_download_post)
     }
 }

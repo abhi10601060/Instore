@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/drawable/content_viewer_background.xml" value="0.152" />
+        <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/drawable/custom_search_bar.xml" value="0.152" />
         <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/layout/activity_main.xml" value="0.2359375" />
         <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/layout/fragment_igtv_downloader.xml" value="0.25" />
         <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/layout/fragment_post_downloader.xml" value="0.25" />
