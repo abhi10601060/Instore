@@ -9,39 +9,35 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="30dp"
-        android:id="@+id/edt_post"/>
+        android:id="@+id/edt_reel"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_post"
+        android:layout_below="@+id/edt_reel"
         android:text="View content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:id="@+id/btn_View_Post"/>
+        android:id="@+id/btn_View_Reel"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Download Post"
+        android:text="Download Reel"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
-        android:id="@+id/btn_download_post"/>
+        android:id="@+id/btn_download_reel"/>
 
-    <ImageView
+    <VideoView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/btn_View_Post"
+        android:layout_below="@+id/btn_View_Reel"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:src="@mipmap/ic_launcher"
         android:layout_marginBottom="80dp"
-        android:id="@+id/img_post"/>
-
-
-
-
+        android:id="@+id/vdo_reel"/>
 
 </RelativeLayout>
