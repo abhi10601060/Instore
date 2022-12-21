@@ -98,8 +98,8 @@ class MainActivity : AppCompatActivity() {
 
 
     fun handlePostDownload() {
-        if (contentViewModel.content.value is Resource.Success<MainModel>){
-            (contentViewModel.content.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.display_url?.let {
+        if (contentViewModel.post.value is Resource.Success<MainModel>){
+            (contentViewModel.post.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.display_url?.let {
                 download(it, "Downloading Post...", "/Instore/posts/"+ java.util.Calendar.getInstance().timeInMillis.toString() + ".jpg")
             }
         }
@@ -109,8 +109,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun handleReelDownload() {
-        if (contentViewModel.content.value is Resource.Success<MainModel>){
-            (contentViewModel.content.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.video_url?.let {
+        if (contentViewModel.reel.value is Resource.Success<MainModel>){
+            (contentViewModel.reel.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.video_url?.let {
                 download(it, "Downloading Reel...", "/Instore/reels/"+ java.util.Calendar.getInstance().timeInMillis.toString() + ".mp4")
             }
         }
@@ -120,8 +120,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun handleIgtvDownload() {
-        if (contentViewModel.content.value is Resource.Success<MainModel>){
-            (contentViewModel.content.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.video_url?.let {
+        if (contentViewModel.igtv.value is Resource.Success<MainModel>){
+            (contentViewModel.igtv.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.video_url?.let {
                 download(it, "Downloading igtv...", "/Instore/igtv/"+ java.util.Calendar.getInstance().timeInMillis.toString() + ".mp4")
             }
         }

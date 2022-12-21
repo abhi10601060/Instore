@@ -38,7 +38,7 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
         viewContentBtn.setOnClickListener(View.OnClickListener {
             val url = postEditText.text.toString().trim()
             if (url.contains("https://www.instagram.com/p/")){
-                contentViewModel.getContent(url)
+                contentViewModel.getContent(url , 1)
             }
         })
 
@@ -51,7 +51,7 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
             }
         })
 
-        contentViewModel.content.observe(viewLifecycleOwner , androidx.lifecycle.Observer {
+        contentViewModel.post.observe(viewLifecycleOwner , androidx.lifecycle.Observer {
             when(it){
 
                 is Resource.Success<MainModel> ->  {

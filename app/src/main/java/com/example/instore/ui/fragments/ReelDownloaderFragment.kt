@@ -35,11 +35,11 @@ class ReelDownloaderFragment : Fragment(R.layout.fragment_reel_downloader) {
         viewReelBtn.setOnClickListener(View.OnClickListener {
             val url = reelEditText.text.toString().trim()
             if (url.contains("https://www.instagram.com/reel/")){
-                viewModel.getContent(url)
+                viewModel.getContent(url, 2)
             }
 
         })
-        viewModel.content.observe(viewLifecycleOwner , androidx.lifecycle.Observer {
+        viewModel.reel.observe(viewLifecycleOwner , androidx.lifecycle.Observer {
             when(it){
 
                 is Resource.Success<MainModel> ->  {

@@ -11,13 +11,20 @@ import kotlinx.coroutines.launch
 
 class ContentViewModel(val repo : ContentRepository) : ViewModel() {
 
-    val content : LiveData<Resource<MainModel>>
-    get() = repo.content
+    val post : LiveData<Resource<MainModel>>
+        get() = repo.post
 
-    fun getContent(rawUrl : String){
+    val reel : LiveData<Resource<MainModel>>
+        get() = repo.reel
+
+    val igtv : LiveData<Resource<MainModel>>
+        get() = repo.igtv
+
+
+    fun getContent(rawUrl : String , type : Int){
         val url = getJsonUrl(rawUrl)
         viewModelScope.launch(Dispatchers.IO){
-            repo.getContent(url)
+            repo.getContent(url , type)
         }
     }
 

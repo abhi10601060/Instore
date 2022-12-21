@@ -34,11 +34,11 @@ class IgtvDownloaderFragment : Fragment(R.layout.fragment_igtv_downloader) {
         viewigtvBtn.setOnClickListener(View.OnClickListener {
             val url = igtvEditText.text.toString().trim()
             if (url.contains("https://www.instagram.com/tv/")){
-                viewModel.getContent(url)
+                viewModel.getContent(url , 3)
             }
 
         })
-        viewModel.content.observe(viewLifecycleOwner , androidx.lifecycle.Observer {
+        viewModel.igtv.observe(viewLifecycleOwner , androidx.lifecycle.Observer {
             when(it){
 
                 is Resource.Success<MainModel> ->  {
