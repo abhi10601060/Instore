@@ -4,22 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.MainActivity">
+    tools:context=".ui.activities.StorageActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Instore"
-        android:id="@+id/toolbar"
-        app:menu="@menu/storage_menu"/>
+        android:id="@+id/toolbar_storage_activity"
+       />
 
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
-        android:id="@+id/content_tabLayout"
-        app:tabMode="fixed"
-        >
+        android:layout_below="@+id/toolbar_storage_activity"
+        android:id="@+id/stored_activity_tablayout">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -36,13 +33,16 @@
             android:layout_height="wrap_content"
             android:text="IGTV"/>
 
+
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/content_tabLayout"
-        android:id="@+id/contents_viewPager"/>
+        android:id="@+id/storage_viewPager"
+        android:layout_below="@+id/stored_activity_tablayout"/>
+
+
 
 
 </RelativeLayout>

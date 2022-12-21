@@ -3,11 +3,14 @@ package com.example.instore.ui.activities
 import android.Manifest
 import android.app.DownloadManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -142,5 +145,22 @@ class MainActivity : AppCompatActivity() {
         val manager = (getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager)
         manager.enqueue(request)
         Toast.makeText(this, "Downloading started...", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.storage_menu_item -> {
+                val intent = Intent(this , StorageActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.storage_menu , menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }
