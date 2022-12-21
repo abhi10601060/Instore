@@ -33,8 +33,7 @@
         android:layout_marginBottom="15dp"
         android:id="@+id/btn_download_igtv"/>
 
-    <VideoView
-        android:id="@+id/vdo_igtv"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/btn_View_igtv"
@@ -42,7 +41,15 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="80dp"
-        />
+        android:foregroundGravity="center">
+
+        <VideoView
+            android:id="@+id/vdo_igtv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            />
+    </FrameLayout>
 
 
     <ProgressBar
