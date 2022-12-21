@@ -47,7 +47,7 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
                 (activity as MainActivity).askPermission()
             }
             else{
-                handleDownload()
+                (activity as MainActivity).handlePostDownload()
             }
         })
 
@@ -73,32 +73,6 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
         })
     }
 
-    private fun handleDownload() {
-        if (contentViewModel.content.value is Resource.Success<MainModel>){
-            (contentViewModel.content.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.display_url?.let {
-                downloadPost(
-                    it
-                )
-            }
-        }
-        else{
-            Toast.makeText(context, "Invalid Url ....", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun downloadPost(url : String) {
-        val request = DownloadManager.Request(Uri.parse(url))
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI and DownloadManager.Request.NETWORK_MOBILE)
-        request.setTitle("Downloading Post...")
-        request.setDescription("------")
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-        request.allowScanningByMediaScanner()
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,"/Instore/posts/" + java.util.Calendar.getInstance().timeInMillis.toString() + ".jpg")
-
-        val manager = (activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager)
-        manager.enqueue(request)
-        Toast.makeText(context, "Downloading started...", Toast.LENGTH_SHORT).show()
-    }
 
     private fun initViews(view: View) {
         postEditText = view.findViewById(R.id.edt_post)

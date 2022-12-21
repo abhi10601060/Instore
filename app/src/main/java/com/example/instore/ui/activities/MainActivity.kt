@@ -1,9 +1,13 @@
 package com.example.instore.ui.activities
 
 import android.Manifest
+import android.app.DownloadManager
+import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -11,7 +15,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.instore.R
 import com.example.instore.adapter.ContentViewPagerAdapter
+import com.example.instore.models.MainModel
 import com.example.instore.util.InstoreApp
+import com.example.instore.util.Resource
 import com.example.instore.viewmodels.ContentViewModel
 import com.example.instore.viewmodels.ContentViewModelFactory
 import com.google.android.material.appbar.MaterialToolbar
@@ -88,5 +94,31 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+
+    fun handlePostDownload() {
+        if (contentViewModel.content.value is Resource.Success<MainModel>){
+            (contentViewModel.content.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.display_url?.let {
+                download(it, "Downloading Post...", "/Instore/posts/")
+            }
+        }
+        else{
+            Toast.makeText(this, "Invalid Url ....", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun download(url : String , title : String, path : String) {
+        val request = DownloadManager.Request(Uri.parse(url))
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI and DownloadManager.Request.NETWORK_MOBILE)
+        request.setTitle(title)
+        request.setDescription("------")
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+        request.allowScanningByMediaScanner()
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,path + java.util.Calendar.getInstance().timeInMillis.toString() + ".jpg")
+
+        val manager = (getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager)
+        manager.enqueue(request)
+        Toast.makeText(this, "Downloading started...", Toast.LENGTH_SHORT).show()
     }
 }
