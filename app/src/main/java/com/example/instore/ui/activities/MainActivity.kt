@@ -100,7 +100,29 @@ class MainActivity : AppCompatActivity() {
     fun handlePostDownload() {
         if (contentViewModel.content.value is Resource.Success<MainModel>){
             (contentViewModel.content.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.display_url?.let {
-                download(it, "Downloading Post...", "/Instore/posts/")
+                download(it, "Downloading Post...", "/Instore/posts/"+ java.util.Calendar.getInstance().timeInMillis.toString() + ".jpg")
+            }
+        }
+        else{
+            Toast.makeText(this, "Invalid Url ....", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun handleReelDownload() {
+        if (contentViewModel.content.value is Resource.Success<MainModel>){
+            (contentViewModel.content.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.video_url?.let {
+                download(it, "Downloading Reel...", "/Instore/reels/"+ java.util.Calendar.getInstance().timeInMillis.toString() + ".mp4")
+            }
+        }
+        else{
+            Toast.makeText(this, "Invalid Url ....", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun handleIgtvDownload() {
+        if (contentViewModel.content.value is Resource.Success<MainModel>){
+            (contentViewModel.content.value as Resource.Success<MainModel>).data?.graphql?.shortcode_media?.video_url?.let {
+                download(it, "Downloading igtv...", "/Instore/igtv/"+ java.util.Calendar.getInstance().timeInMillis.toString() + ".mp4")
             }
         }
         else{
@@ -115,7 +137,7 @@ class MainActivity : AppCompatActivity() {
         request.setDescription("------")
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
         request.allowScanningByMediaScanner()
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,path + java.util.Calendar.getInstance().timeInMillis.toString() + ".jpg")
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,path )
 
         val manager = (getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager)
         manager.enqueue(request)

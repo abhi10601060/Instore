@@ -1,9 +1,12 @@
 package com.example.instore.ui.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.instore.R
 import com.example.instore.models.MainModel
@@ -50,6 +53,15 @@ class IgtvDownloaderFragment : Fragment(R.layout.fragment_igtv_downloader) {
                 is Resource.Loading<MainModel> -> {
                     igtvProgress.visibility = View.VISIBLE
                 }
+            }
+        })
+
+        downloadIgtv.setOnClickListener(View.OnClickListener {
+            if (context?.let { it1 -> ContextCompat.checkSelfPermission(it1, Manifest.permission.WRITE_EXTERNAL_STORAGE) } != PackageManager.PERMISSION_GRANTED){
+                (activity as MainActivity).askPermission()
+            }
+            else{
+                (activity as MainActivity).handleIgtvDownload()
             }
         })
 
