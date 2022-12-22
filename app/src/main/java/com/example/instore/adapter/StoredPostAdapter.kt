@@ -2,7 +2,9 @@ package com.example.instore.adapter
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.media.ThumbnailUtils
 import android.net.Uri
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,9 +27,14 @@ class StoredPostAdapter(private var posts: List<File>, private val context: Cont
 
         holder.postName.setText(post.name)
 
-        val bitmap = BitmapFactory.decodeFile(post.absolutePath)
-        holder.image.setImageBitmap(bitmap)
-
+        if(post.absolutePath.endsWith(".mp4")){
+            val bitmap = ThumbnailUtils.createVideoThumbnail(post.absolutePath, MediaStore.Video.Thumbnails.MINI_KIND)
+            holder.image.setImageBitmap(bitmap)
+        }
+        else{
+            val bitmap = BitmapFactory.decodeFile(post.absolutePath)
+            holder.image.setImageBitmap(bitmap)
+        }
     }
 
     override fun getItemCount(): Int {
