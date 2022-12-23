@@ -18,16 +18,24 @@
             android:src="@mipmap/ic_launcher"
             android:layout_margin="5dp"/>
 
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/options_menu"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="15dp"
+            android:id="@+id/options_menu_img"/>
+
         <TextView
+            android:id="@+id/post_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="45dp"
             android:layout_toRightOf="@+id/post_image"
             android:text="bhjgshbgbbhsbbbhsbgbbsgbbgsbbgbbsbjkbsghbnjgn"
             android:textColor="@color/black"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:textSize="15dp"
-            android:id="@+id/post_name"/>
+            android:textSize="15dp" />
 
     </RelativeLayout>
 

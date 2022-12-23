@@ -5,10 +5,10 @@ import android.graphics.BitmapFactory
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -26,6 +26,11 @@ class StoredPostAdapter(private var posts: List<File>, private val context: Cont
         val post = posts.get(position)
 
         holder.postName.setText(post.name)
+        holder.options.setOnClickListener(View.OnClickListener {
+            Log.d("ABHI", "onBindViewHolder: ${holder.adapterPosition} ")
+
+            showPopup(holder.options , post)
+        })
 
         if(post.absolutePath.endsWith(".mp4")){
             val bitmap = ThumbnailUtils.createVideoThumbnail(post.absolutePath, MediaStore.Video.Thumbnails.MINI_KIND)
@@ -37,12 +42,33 @@ class StoredPostAdapter(private var posts: List<File>, private val context: Cont
         }
     }
 
+    private fun showPopup(view: View , post : File) {
+        val popupMenu = PopupMenu(view.context , view , Gravity.LEFT)
+        popupMenu.inflate(R.menu.stored_post_options_menu)
+        popupMenu.show()
+        popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener{
+            override fun onMenuItemClick(p0: MenuItem?): Boolean {
+                when(p0?.itemId){
+                    R.id.post_delete ->{
+                        post.delete()
+                    }
+                }
+                return false
+            }
+
+        })
+    }
+
+
     override fun getItemCount(): Int {
         return posts.size
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image = itemView.findViewById<ImageView>(R.id.post_image)
         val postName = itemView.findViewById<TextView>(R.id.post_name)
+        val options = itemView.findViewById<ImageView>(R.id.options_menu_img)
+
+
     }
 }

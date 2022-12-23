@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/drawable/content_viewer_background.xml" value="0.152" />
         <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/drawable/custom_search_bar.xml" value="0.152" />
+        <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/drawable/options_menu.xml" value="0.152" />
         <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/layout/activity_main.xml" value="0.2359375" />
         <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/layout/activity_storage.xml" value="0.25" />
         <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/layout/fragment_igtv_downloader.xml" value="0.25" />
@@ -15,6 +16,7 @@
         <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/layout/fragment_stored_reels.xml" value="0.25" />
         <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/layout/post_layout.xml" value="0.25" />
         <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/menu/storage_menu.xml" value="0.25" />
+        <entry key="..\:/ANDROID DEVELOPEMENT/MVVM/Instore/app/src/main/res/menu/stored_post_options_menu.xml" value="0.25" />
       </map>
     </option>
   </component>
