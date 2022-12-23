@@ -1,6 +1,7 @@
 package com.example.instore.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.ThumbnailUtils
 import android.net.Uri
@@ -10,6 +11,7 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.instore.R
@@ -54,11 +56,27 @@ class StoredPostAdapter(private val posts: MutableList<File>, private val contex
                         posts.remove(post)
                         notifyDataSetChanged()
                     }
+
+                    R.id.post_send -> {
+                        if (post.endsWith(".mp4")){
+                            sendPost("video/*" , "Share Video" , post)
+                        }
+                        else {
+                            sendPost("image/*" , "Share Image" , post)
+                        }
+
+                    }
                 }
                 return false
             }
-
         })
+    }
+
+    private fun sendPost(type : String , title : String, file : File) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.setType(type)
+        intent.putExtra(Intent.EXTRA_STREAM , Uri.parse(file.path))
+        context.startActivity(Intent.createChooser(intent , title))
     }
 
 
