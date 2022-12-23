@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.instore.R
 import java.io.File
 
-class StoredPostAdapter(private var posts: List<File>, private val context: Context): RecyclerView.Adapter<StoredPostAdapter.ViewHolder>() {
+class StoredPostAdapter(private val posts: MutableList<File>, private val context: Context): RecyclerView.Adapter<StoredPostAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.post_layout , parent , false)
@@ -29,7 +29,7 @@ class StoredPostAdapter(private var posts: List<File>, private val context: Cont
         holder.options.setOnClickListener(View.OnClickListener {
             Log.d("ABHI", "onBindViewHolder: ${holder.adapterPosition} ")
 
-            showPopup(holder.options , post)
+            showPopup(holder.options , post )
         })
 
         if(post.absolutePath.endsWith(".mp4")){
@@ -42,7 +42,7 @@ class StoredPostAdapter(private var posts: List<File>, private val context: Cont
         }
     }
 
-    private fun showPopup(view: View , post : File) {
+    private fun showPopup(view: View , post : File ) {
         val popupMenu = PopupMenu(view.context , view , Gravity.LEFT)
         popupMenu.inflate(R.menu.stored_post_options_menu)
         popupMenu.show()
@@ -51,6 +51,8 @@ class StoredPostAdapter(private var posts: List<File>, private val context: Cont
                 when(p0?.itemId){
                     R.id.post_delete ->{
                         post.delete()
+                        posts.remove(post)
+                        notifyDataSetChanged()
                     }
                 }
                 return false

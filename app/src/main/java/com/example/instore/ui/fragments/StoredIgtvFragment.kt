@@ -5,45 +5,34 @@ import android.os.Environment
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instore.R
 import com.example.instore.adapter.StoredPostAdapter
+import com.example.instore.ui.activities.StorageActivity
+import com.example.instore.viewmodels.StorageViewModel
 import java.io.File
+
 
 class StoredIgtvFragment : Fragment(R.layout.fragment_stored_igtv) {
 
     lateinit var storedIgtvRV : RecyclerView
+    lateinit var viewModel : StorageViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         storedIgtvRV = view.findViewById(R.id.stored_igtv_RV)
+        viewModel = (activity as StorageActivity).viewModel
 
-        getIgtvs()
+
+        viewModel.igtv.observe(viewLifecycleOwner , Observer{ igtvPosts ->
+            val adapter = igtvPosts?.let { activity?.let { it1 -> StoredPostAdapter(it, it1) } }
+            storedIgtvRV.adapter = adapter
+            storedIgtvRV.layoutManager = LinearLayoutManager(context , LinearLayoutManager.VERTICAL , false)
+
+        })
     }
 
-    private fun getIgtvs() {
-
-        val igtvDirectory = File("${Environment.getExternalStorageDirectory()}/Download/Instore/igtv" )
-
-        val igtvs = igtvDirectory.listFiles()
-
-        Log.d("ABHI", "getReels: ${igtvs.toString()} -- ${igtvDirectory.toString()}")
-
-        val igtvVideos = igtvs?.filter {
-            it.absolutePath.endsWith(".mp4")
-        }
-
-        if (igtvVideos != null) {
-            for (igtv in igtvVideos){
-                Log.d("ABHI", "gwtReels: ${igtv.toString()}")
-            }
-        }
-
-        val adapter = igtvVideos?.let { context?.let { it1 -> StoredPostAdapter(it, it1) } }
-        storedIgtvRV.adapter = adapter
-        storedIgtvRV.layoutManager = LinearLayoutManager(context , LinearLayoutManager.VERTICAL , false)
-
-    }
 }

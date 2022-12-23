@@ -9,10 +9,14 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.instore.R
 import com.example.instore.adapter.ContentViewPagerAdapter
 import com.example.instore.adapter.StoredContentViewPagerAdapter
+import com.example.instore.util.InstoreApp
+import com.example.instore.viewmodels.StorageViewModel
+import com.example.instore.viewmodels.StorageViewModelFactory
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 
@@ -21,10 +25,15 @@ class StorageActivity : AppCompatActivity() {
     lateinit var toolbar: MaterialToolbar
     lateinit var tabLayout: TabLayout
     lateinit var viewPager: ViewPager2
+    lateinit var viewModel : StorageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_storage)
+
+        val storageRepository = (application as InstoreApp).storageRepository
+        viewModel = ViewModelProvider(this , StorageViewModelFactory(storageRepository)).get(StorageViewModel::class.java)
+        viewModel.loadStoredContent()
 
         initViews()
         askPermission()
