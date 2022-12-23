@@ -16,6 +16,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.instore.R
 import java.io.File
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.math.roundToInt
 
 class StoredPostAdapter(private val posts: MutableList<File>, private val context: Context): RecyclerView.Adapter<StoredPostAdapter.ViewHolder>() {
 
@@ -42,6 +47,17 @@ class StoredPostAdapter(private val posts: MutableList<File>, private val contex
             val bitmap = BitmapFactory.decodeFile(post.absolutePath)
             holder.image.setImageBitmap(bitmap)
         }
+        val sdt = SimpleDateFormat("dd/MM/yy hh.mm aaa")
+        holder.date.text = sdt.format(Date(post.lastModified()))
+
+        holder.size.text = "${getMB(post)} mb | "
+    }
+
+    private fun getMB(file: File): String {
+        val size = file.length().toDouble() / (1024*1024)
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.DOWN
+        return df.format(size).toDouble().toString()
     }
 
     private fun showPopup(view: View , post : File ) {
@@ -88,7 +104,8 @@ class StoredPostAdapter(private val posts: MutableList<File>, private val contex
         val image = itemView.findViewById<ImageView>(R.id.post_image)
         val postName = itemView.findViewById<TextView>(R.id.post_name)
         val options = itemView.findViewById<ImageView>(R.id.options_menu_img)
-
+        val date = itemView.findViewById<TextView>(R.id.post_download_date)
+        val size = itemView.findViewById<TextView>(R.id.post_size)
 
     }
 }
