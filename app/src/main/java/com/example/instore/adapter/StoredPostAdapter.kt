@@ -10,11 +10,13 @@ import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.PopupMenu
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.instore.R
+import com.example.instore.ui.activities.ViewContentActivity
 import java.io.File
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -51,6 +53,12 @@ class StoredPostAdapter(private val posts: MutableList<File>, private val contex
         holder.date.text = sdt.format(Date(post.lastModified()))
 
         holder.size.text = "${getMB(post)} mb | "
+
+        holder.parent.setOnClickListener(View.OnClickListener {
+            val intent = Intent(context , ViewContentActivity::class.java)
+            intent.putExtra("path" , post.absolutePath)
+            context.startActivity(intent)
+        })
     }
 
     private fun getMB(file: File): String {
@@ -106,6 +114,7 @@ class StoredPostAdapter(private val posts: MutableList<File>, private val contex
         val options = itemView.findViewById<ImageView>(R.id.options_menu_img)
         val date = itemView.findViewById<TextView>(R.id.post_download_date)
         val size = itemView.findViewById<TextView>(R.id.post_size)
+        val parent = itemView.findViewById<RelativeLayout>(R.id.parent)
 
     }
 }
