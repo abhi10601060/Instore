@@ -33,6 +33,7 @@ class ReelDownloaderFragment : Fragment(R.layout.fragment_reel_downloader) {
         initViews(view)
 
         viewReelBtn.setOnClickListener(View.OnClickListener {
+            deleteReceivedReel()
             val url = reelEditText.text.toString().trim()
             if (url.contains("https://www.instagram.com/reel/")){
                 viewModel.getContent(url, 2)
@@ -66,7 +67,7 @@ class ReelDownloaderFragment : Fragment(R.layout.fragment_reel_downloader) {
             }
         })
 
-
+        handleReceivedReel()
     }
 
     private fun showVideo(url: String) {
@@ -86,4 +87,18 @@ class ReelDownloaderFragment : Fragment(R.layout.fragment_reel_downloader) {
         reelVideoView = view.findViewById(R.id.vdo_reel)
         reelProgress = view.findViewById(R.id.reelProgressBar)
     }
+
+    private fun deleteReceivedReel() {
+        if (viewModel.receivedPath != null && viewModel.receivedPath!!.contains("/reel/")){
+            viewModel.receivedPath = null
+        }
+    }
+
+    private fun handleReceivedReel() {
+        if (viewModel.receivedPath != null && viewModel.receivedPath!!.contains("/reel/")){
+            reelEditText.setText(viewModel.receivedPath)
+            viewReelBtn.callOnClick()
+        }
+    }
+
 }

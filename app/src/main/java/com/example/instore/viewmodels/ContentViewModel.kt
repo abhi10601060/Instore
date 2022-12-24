@@ -20,6 +20,7 @@ class ContentViewModel(val repo : ContentRepository) : ViewModel() {
     val igtv : LiveData<Resource<MainModel>>
         get() = repo.igtv
 
+    var receivedPath : String? = null
 
     fun getContent(rawUrl : String , type : Int){
         val url = getJsonUrl(rawUrl)

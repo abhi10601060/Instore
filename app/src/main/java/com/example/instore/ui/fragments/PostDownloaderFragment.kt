@@ -30,12 +30,13 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews(view)
 
+        initViews(view)
 
         contentViewModel = (activity as MainActivity).contentViewModel
 
         viewContentBtn.setOnClickListener(View.OnClickListener {
+            deleteReceivedPost()
             val url = postEditText.text.toString().trim()
             if (url.contains("https://www.instagram.com/p/")){
                 contentViewModel.getContent(url , 1)
@@ -71,6 +72,21 @@ class PostDownloaderFragment : Fragment(R.layout.fragment_post_downloader) {
                 }
             }
         })
+
+        handleReceivedPost()
+    }
+
+    private fun deleteReceivedPost() {
+        if (contentViewModel.receivedPath != null && contentViewModel.receivedPath!!.contains("/p/")){
+            contentViewModel.receivedPath = null
+        }
+    }
+
+    private fun handleReceivedPost() {
+       if (contentViewModel.receivedPath != null && contentViewModel.receivedPath!!.contains("/p/")){
+           postEditText.setText(contentViewModel.receivedPath)
+           viewContentBtn.callOnClick()
+       }
     }
 
 

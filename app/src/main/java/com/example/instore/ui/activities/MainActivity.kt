@@ -9,11 +9,13 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.instore.R
@@ -44,11 +46,18 @@ class MainActivity : AppCompatActivity() {
         val contentRepository = (application as InstoreApp).contentRepository
         contentViewModel = ViewModelProvider(this , ContentViewModelFactory(contentRepository)).get(ContentViewModel::class.java)
 
-
         setSupportActionBar(toolbar)
         setupViewPagerWithTablayout()
 
         askPermission()
+
+        if (intent!=null){
+            if (intent.action.equals(Intent.ACTION_SEND) && intent.type.equals("text/plain")){
+                Log.d("ABHI", "onCreate: $intent.getStringExtra(Intent.EXTRA_TEXT) ")
+                handleIntent(intent.getStringExtra(Intent.EXTRA_TEXT))
+                Log.d("ABHI", "onCreate: ${contentViewModel.receivedPath} ")
+            }
+        }
     }
 
     private fun setupViewPagerWithTablayout() {
@@ -162,5 +171,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.storage_menu , menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun handleIntent(path: String?) {
+        if (path != null && path.contains("https://www.instagram.com/")){
+            contentViewModel.receivedPath = intent.getStringExtra(Intent.EXTRA_TEXT)
+            if (path.contains("/p/")){
+                viewPager.setCurrentItem(0)
+            }
+            else if (path.contains("/reel/")){
+                viewPager.setCurrentItem(1)
+            }
+            else if(path.contains("/tv/")){
+                viewPager.setCurrentItem(2)
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        contentViewModel.receivedPath = null
     }
 }

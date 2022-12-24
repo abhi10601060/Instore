@@ -32,6 +32,7 @@ class IgtvDownloaderFragment : Fragment(R.layout.fragment_igtv_downloader) {
         viewModel = (activity as MainActivity).contentViewModel
 
         viewigtvBtn.setOnClickListener(View.OnClickListener {
+            deleteReceivedIgtv()
             val url = igtvEditText.text.toString().trim()
             if (url.contains("https://www.instagram.com/tv/")){
                 viewModel.getContent(url , 3)
@@ -65,6 +66,8 @@ class IgtvDownloaderFragment : Fragment(R.layout.fragment_igtv_downloader) {
             }
         })
 
+        handleReceivedIgtv()
+
     }
 
     private fun showVideo(url: String) {
@@ -84,6 +87,19 @@ class IgtvDownloaderFragment : Fragment(R.layout.fragment_igtv_downloader) {
         downloadIgtv = view.findViewById(R.id.btn_download_igtv)
         igtvVideoView = view.findViewById(R.id.vdo_igtv)
         igtvProgress = view.findViewById(R.id.igtvProgressBar)
+    }
+
+    private fun deleteReceivedIgtv() {
+        if (viewModel.receivedPath != null && viewModel.receivedPath!!.contains("/tv/")){
+            viewModel.receivedPath = null
+        }
+    }
+
+    private fun handleReceivedIgtv() {
+        if (viewModel.receivedPath != null && viewModel.receivedPath!!.contains("/tv/")){
+            igtvEditText.setText(viewModel.receivedPath)
+            viewigtvBtn.callOnClick()
+        }
     }
 
 }
