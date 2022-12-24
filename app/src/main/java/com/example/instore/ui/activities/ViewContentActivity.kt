@@ -9,10 +9,11 @@ import android.widget.ImageView
 import android.widget.MediaController
 import android.widget.VideoView
 import com.example.instore.R
+import com.ortiz.touchview.TouchImageView
 
 class ViewContentActivity : AppCompatActivity() {
 
-    lateinit var imageView: ImageView
+    lateinit var imageView: TouchImageView
     lateinit var videoView: VideoView
 
     override fun onCreate(savedInstanceState: Bundle?) {
